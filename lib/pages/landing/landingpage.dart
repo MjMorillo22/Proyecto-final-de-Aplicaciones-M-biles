@@ -30,7 +30,7 @@ class _LandingPageState extends State<LandingPage> {
       'image': 'assets/values_image.png',
     },
     {
-      'title': 'Video',
+      'title': 'Himno UASD',
       'description': 'Conoce más sobre nosotros.',
       'videoUrl': 'https://www.youtube.com/watch?v=L8vm3FmNrUk',
     },

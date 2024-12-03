@@ -60,10 +60,15 @@ class DeveloperInfo extends StatelessWidget {
         radius: 30,
         backgroundImage: AssetImage(imagePath),
         onBackgroundImageError: (_, __) =>
-            Icon(Icons.error, color: Colors.red), // Fallback if image fails
+            Icon(Icons.error, color: Colors.red),
       ),
       title: Text(name),
-      subtitle: Text(matricula),
-    );
+      subtitle: Column(
+        crossAxisAlignment: CrossAxisAlignment.start, 
+        children: [
+          Text(matricula),
+          Text(aporte),
+        ],
+      ));
   }
 }

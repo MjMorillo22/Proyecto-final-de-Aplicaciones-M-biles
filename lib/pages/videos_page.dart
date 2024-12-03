@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:uasdfinal/widgets/difuminatedBackground.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 import '../services/api_service.dart';
 
@@ -90,14 +91,16 @@ class _VideoPlayerPageState extends State<VideoPlayerPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlurredBackground(
+    child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(title: Text('Reproduciendo Video')),
       body: YoutubePlayer(
         controller: _controller,
         showVideoProgressIndicator: true,
         progressIndicatorColor: Colors.blue,
       ),
-    );
+    ));
   }
 
   @override

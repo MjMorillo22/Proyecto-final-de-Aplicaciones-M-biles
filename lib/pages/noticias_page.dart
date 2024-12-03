@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 import '../services/api_service.dart';
 import '/pages/login/login_page.dart';
 
@@ -89,9 +90,11 @@ class NoticiaDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Detalle de Noticia')),
-      body: Center(
-        child: Text('Abrir enlace en el navegador: $url'),
+      appBar: AppBar(
+        title: Text('Detalle de la noticias'),
+      ),
+      body: WebViewWidget(
+        controller: WebViewController()..loadRequest(Uri.parse(url)),
       ),
     );
   }

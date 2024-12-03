@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:uasdfinal/pages/login/UserInfoPage.dart';
+import 'package:uasdfinal/widgets/difuminatedBackground.dart';
 import 'noticias_page.dart';
 import 'horarios_page.dart';
 import 'preseleccion_page.dart';
@@ -19,7 +20,9 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return BlurredBackground(
+    child: Scaffold(
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.person), // Ícono de usuario
@@ -95,7 +98,7 @@ class HomePage extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ));
   }
 
   Widget _buildMenuOption(

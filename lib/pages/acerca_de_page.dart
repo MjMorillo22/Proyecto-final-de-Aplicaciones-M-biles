@@ -14,21 +14,21 @@ class AcercaDePage extends StatelessWidget {
               name: 'Marcos Jose Morillo Suarez',
               matricula: 'Matrícula: 2020-10624',
             ),
-            DeveloperInfo(
-              imagePath: 'assets/vago2.jpg',
-              name: 'Yesica De Los Santos',
-              matricula: 'Matrícula: 2022-0748',
-            ),
-            DeveloperInfo(
-              imagePath: 'assets/vago3.jpg',
-              name: 'Eduardo Pérez',
-              matricula: 'Matrícula: 2020-10473',
-            ),
-            DeveloperInfo(
-              imagePath: 'assets/vago1.jpg',
-              name: 'Vicmairy Adelina Charles Laureano',
-              matricula: 'Matrícula: 2022-0261',
-            ),
+            // DeveloperInfo(
+            //   imagePath: 'assets/vago2.jpg',
+            //   name: 'Yesica De Los Santos',
+            //   matricula: 'Matrícula: 2022-0748',
+            // ),
+            // DeveloperInfo(
+            //   imagePath: 'assets/vago3.jpg',
+            //   name: 'Eduardo Pérez',
+            //   matricula: 'Matrícula: 2020-10473',
+            // ),
+            // DeveloperInfo(
+            //   imagePath: 'assets/vago1.jpg',
+            //   name: 'Vicmairy Adelina Charles Laureano',
+            //   matricula: 'Matrícula: 2022-0261',
+            // ),
           ],
         ),
       ),

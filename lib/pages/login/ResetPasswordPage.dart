@@ -45,7 +45,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
       Navigator.pop(context);
     } catch (e) {
       setState(() {
-        _errorMessage = 'Error: $e';
+        _errorMessage = 'Error: Valores incorrectos';
       });
     } finally {
       setState(() {
@@ -66,6 +66,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               controller: _usernameController,
               decoration: InputDecoration(labelText: 'Usuario'),
             ),
+            SizedBox(height: 8),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(labelText: 'Correo Electrónico'),

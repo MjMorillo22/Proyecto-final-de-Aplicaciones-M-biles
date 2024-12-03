@@ -45,7 +45,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     Navigator.pop(context);
   } catch (e) {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text('Error al crear usuario: $e'),
+      content: Text('Error al crear usuario: Asegurese de llenar todos los campos'),
     ));
   } finally {
     setState(() {
@@ -67,15 +67,18 @@ class _RegistrationPageState extends State<RegistrationPage> {
               controller: _usernameController,
               decoration: InputDecoration(labelText: 'Usuario'),
             ),
+            SizedBox(height: 8),
             TextField(
               controller: _emailController,
               decoration: InputDecoration(labelText: 'Correo Electrónico'),
             ),
+            SizedBox(height: 8),
             TextField(
               controller: _passwordController,
               decoration: InputDecoration(labelText: 'Contraseña'),
               obscureText: true,
             ),
+            SizedBox(height: 8),
             TextField(
               controller: _confirmPasswordController,
               decoration: InputDecoration(labelText: 'Confirmar Contraseña'),

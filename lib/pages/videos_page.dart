@@ -42,7 +42,7 @@ class VideosPage extends StatelessWidget {
                   elevation: 4,
                   margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   child: ListTile(
-                    leading: Icon(Icons.play_circle_fill, size: 40),
+                    leading: Icon(Icons.play_circle_fill, size: 40, color: const Color.fromARGB(255, 76, 116, 175),),
                     title: Text(video['titulo'] ?? 'Título no disponible'),
                     subtitle: Text('Publicado el: ${video['fechaPublicacion'] ?? 'Desconocido'}'),
                     onTap: () {

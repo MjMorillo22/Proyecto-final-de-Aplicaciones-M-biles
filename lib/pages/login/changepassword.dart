@@ -76,11 +76,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
               decoration: InputDecoration(labelText: 'Contraseña Actual'),
               obscureText: true,
             ),
+            SizedBox(height: 8),
             TextField(
               controller: _newPasswordController,
               decoration: InputDecoration(labelText: 'Nueva Contraseña'),
               obscureText: true,
             ),
+            SizedBox(height: 8),
             TextField(
               controller: _confirmPasswordController,
               decoration:

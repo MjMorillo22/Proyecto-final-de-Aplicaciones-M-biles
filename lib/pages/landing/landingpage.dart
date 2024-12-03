@@ -36,12 +36,14 @@ class _LandingPageState extends State<LandingPage> {
     },
   ];
 
-  int _currentSlideIndex = 0;
+  late PageController _pageController;
   late YoutubePlayerController _videoController;
+  int _currentPage = 0;
 
   @override
   void initState() {
     super.initState();
+    _pageController = PageController();
     _videoController = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(
             _slides.last['videoUrl'] ?? '') ??
@@ -52,143 +54,107 @@ class _LandingPageState extends State<LandingPage> {
 
   @override
   void dispose() {
+    _pageController.dispose();
     _videoController.dispose();
     super.dispose();
   }
 
-  void _nextSlide() {
+  void _onPageChanged(int index) {
     setState(() {
-      if (_currentSlideIndex < _slides.length - 1) {
-        _currentSlideIndex++;
-      } else {
-        Navigator.pushReplacementNamed(context, '/login');
-      }
+      _currentPage = index;
     });
+
+    if (index == _slides.length - 1) {
+      _videoController.play();
+    } else {
+      _videoController.pause();
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final currentSlide = _slides[_currentSlideIndex];
     return Scaffold(
-      body: AnimatedSwitcher(
-        duration: Duration(milliseconds: 800),
-        transitionBuilder: (child, animation) {
-          return FadeTransition(opacity: animation, child: child);
-        },
-        child: Stack(
-          key: ValueKey<int>(_currentSlideIndex),
-          children: [
-            Positioned.fill(
-              child: currentSlide.containsKey('image')
-                  ? Image.asset(
-                      currentSlide['image'],
-                      fit: BoxFit.cover,
-                    )
-                  : Container(color: Colors.black),
-            ),
-            Positioned.fill(
-              child: Container(
-                color: Colors.black.withOpacity(0.6),
+      body: PageView.builder(
+        controller: _pageController,
+        itemCount: _slides.length,
+        onPageChanged: _onPageChanged,
+        itemBuilder: (context, index) {
+          final currentSlide = _slides[index];
+          return Stack(
+            children: [
+              Positioned.fill(
+                child: currentSlide.containsKey('image')
+                    ? Image.asset(
+                        currentSlide['image'],
+                        fit: BoxFit.cover,
+                      )
+                    : Container(color: Colors.black),
               ),
-            ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (currentSlide.containsKey('title'))
-                      AnimatedText(
-                        text: currentSlide['title'] ?? '',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                    if (currentSlide.containsKey('description'))
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 16.0),
-                        child: AnimatedText(
-                          text: currentSlide['description'] ?? '',
+              Positioned.fill(
+                child: Container(
+                  color: Colors.black.withOpacity(0.6),
+                ),
+              ),
+              Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (currentSlide.containsKey('title'))
+                        Text(
+                          currentSlide['title'] ?? '',
                           style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.white70,
+                            fontSize: 28,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      if (currentSlide.containsKey('description'))
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 16.0),
+                          child: Text(
+                            currentSlide['description'] ?? '',
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.white,
+                            ),
+                            textAlign: TextAlign.center,
                           ),
                         ),
-                      ),
-                    if (currentSlide.containsKey('videoUrl'))
-                      YoutubePlayer(
-                        controller: _videoController,
-                        showVideoProgressIndicator: true,
-                      ),
-                  ],
+                      if (currentSlide.containsKey('videoUrl'))
+                        YoutubePlayer(
+                          controller: _videoController,
+                          showVideoProgressIndicator: true,
+                        ),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Positioned(
-              bottom: 20,
-              right: 20,
-              child: FloatingActionButton(
-                onPressed: _nextSlide,
-                child: Icon(
-                  _currentSlideIndex < _slides.length - 1
-                      ? Icons.arrow_forward
-                      : Icons.check,
-                ),
-              ),
-            ),
-          ],
+            ],
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(108, 62, 115, 206),
+        onPressed: () {
+          final nextPage = _currentPage + 1;
+          if (nextPage < _slides.length) {
+            _pageController.animateToPage(
+              nextPage,
+              duration: Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          } else {
+            Navigator.pushReplacementNamed(context, '/login');
+          }
+        },
+        child: Icon(
+          color: Colors.white,
+          _currentPage == _slides.length - 1 ? Icons.check : Icons.keyboard_arrow_right_sharp,
         ),
       ),
     );
-  }
-}
-
-class AnimatedText extends StatefulWidget {
-  final String text;
-  final TextStyle style;
-
-  AnimatedText({required this.text, required this.style});
-
-  @override
-  _AnimatedTextState createState() => _AnimatedTextState();
-}
-
-class _AnimatedTextState extends State<AnimatedText>
-    with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _fadeAnimation;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: Duration(seconds: 2),
-    );
-    _fadeAnimation = CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeIn,
-    );
-    _controller.forward();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FadeTransition(
-      opacity: _fadeAnimation,
-      child: Text(
-        widget.text,
-        style: widget.style,
-        textAlign: TextAlign.center,
-      ),
-    );
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
   }
 }

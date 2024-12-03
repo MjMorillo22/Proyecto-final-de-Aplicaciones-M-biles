@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         _passwordController.text.trim().isEmpty) {
       setState(() {
         _isLoading = false;
-        _errorMessage = 'Username and password cannot be empty.';
+        _errorMessage = 'El usuario y la contraseña no pueden estar vacíos.';
       });
       return;
     }
@@ -49,12 +49,13 @@ class _LoginPageState extends State<LoginPage> {
         );
       } else {
         setState(() {
-          _errorMessage = response['message'] ?? 'Invalid username or password.';
+          _errorMessage =
+              response['message'] ?? 'Usuario o contraseña inválida.';
         });
       }
     } catch (e) {
       setState(() {
-        _errorMessage = 'Contraseña incorrecta';
+        _errorMessage = 'Ha ocurrido un error. Inténtalo nuevamente.';
       });
     } finally {
       setState(() {
@@ -66,63 +67,89 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       appBar: AppBar(
-        title: Text('Login'),
+        iconTheme: IconThemeData(color: Colors.white),
+        title: Image.asset(
+          'assets/logo_blanco.png',
+          height: 50,
+          fit: BoxFit.contain,
+        ),
+        centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _usernameController,
-              decoration: InputDecoration(labelText: 'Username'),
-            ),
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            SizedBox(height: 20),
-            if (_isLoading)
-              CircularProgressIndicator()
-            else
-              ElevatedButton(
-                onPressed: _login,
-                child: Text('Login'),
-              ),
-            if (_errorMessage.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 10),
-                child: Text(
-                  _errorMessage,
-                  style: TextStyle(color: Colors.red),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              SizedBox(height: 40),
+              Text(
+                'Inicio de sesión',
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.black,
                 ),
+                textAlign: TextAlign.center,
               ),
-            SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecuperarContrasenaPage(apiService: _apiService),
+              SizedBox(height: 16),
+              TextField(
+                controller: _usernameController,
+                decoration: InputDecoration(labelText: 'Usuario'),
+              ),
+              SizedBox(height: 8),
+              TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Contraseña'),
+                obscureText: true,
+              ),
+              SizedBox(height: 16),
+              if (_isLoading)
+                Center(
+                  child: CircularProgressIndicator(),
+                )
+              else
+                ElevatedButton(
+                  onPressed: _login,
+                  child: Text('Acceder'),
+                ),
+              if (_errorMessage.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(
+                    _errorMessage,
+                    style: TextStyle(color: Colors.red),
+                    textAlign: TextAlign.center,
                   ),
-                );
-              },
-              child: Text('Recuperar Contraseña'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RegistrationPage(apiService: _apiService),
-                  ),
-                );
-              },
-              child: Text('Registrarse'),
-            ),
-          ],
+                ),
+              SizedBox(height: 10),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RecuperarContrasenaPage(apiService: _apiService),
+                    ),
+                  );
+                },
+                child: Text('Recuperar Contraseña'),
+              ),
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          RegistrationPage(apiService: _apiService),
+                    ),
+                  );
+                },
+                child: Text('Registrarse'),
+              ),
+            ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

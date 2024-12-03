@@ -92,10 +92,12 @@ class _CrearSolicitudPageState extends State<CrearSolicitudPage> {
                       });
                     },
                   ),
+                  SizedBox(height: 8),
                   TextField(
                     controller: _tituloController,
                     decoration: InputDecoration(labelText: 'Título'),
                   ),
+                  SizedBox(height: 8),
                   TextField(
                     controller: _descripcionController,
                     decoration: InputDecoration(labelText: 'Descripción'),
